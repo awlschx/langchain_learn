@@ -1,0 +1,15 @@
+[project]
+name = "lc-cource"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "agentstate>=1.0.2",
+    "create-agent>=0.0.3",
+    "langchain>=1.4.0",
+    "langchain-deepseek>=1.1.0",
+    "notebook>=7.6.2",
+    "recursivecharactertextsplitter>=0.1.0",
+    "splitter>=0.1.1",
+    "store>=2020.2.10",
+    "textloader>=0.0.9",
+]
