@@ -9,9 +9,8 @@ from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from pymilvus import MilvusClient
 
-# Windows 控制台默认 GBK,模型输出 emoji 时 pretty_print 会抛 UnicodeEncodeError
+
 sys.stdout.reconfigure(encoding="utf-8")
-# 报错信息同样可能含中文,一并改成 UTF-8,否则控制台会显示乱码
 sys.stderr.reconfigure(encoding="utf-8")
 
 # 环境变量必须在读取 os.getenv 之前加载
@@ -21,14 +20,13 @@ load_dotenv(override=True)
 MILVUS_URI = "http://localhost:19530"  # milvus服务的连接地址
 DB_NAME = "rag_tutorial"  # 自定义数据库名称
 COLLECTION_NAME = "docs"  # 向量集合名
-KNOWLEDGE_FILE = "../knowledge.txt"  # 知识库文件路径(相对于运行目录)
+KNOWLEDGE_FILE = "../knowledge.txt"  # 知识库文件路径
 
 # BGE-M3在siliconFlow/Milvus文档中都是1024维
 EMBED_MODEL_NAME = "Pro/BAAI/bge-m3"  # 嵌入模型
 EMBED_DIM = 1024  # 向量维度
 # 硅基流动的 OpenAI 兼容接口地址
 EMBED_BASE_URL = "https://api.siliconflow.cn/v1"
-# 嵌入走硅基流动,必须用硅基流动自己的 key,DeepSeek 的 key 在这里无效
 EMBED_API_KEY = os.getenv("SILICONFLOW_API_KEY")
 CHAT_API_KEY = os.getenv("DEEPSEEK_API_KEY")
 
@@ -42,11 +40,9 @@ TOP_K = 3  # 每次检索取回的片段数
 
 # ============ 2.初始化 embedding 与对话模型 ============
 embed_model = init_embeddings(
-    # "openai:" 前缀表示用 OpenAI 兼容协议调用,实际请求发往 EMBED_BASE_URL
     model="openai:" + EMBED_MODEL_NAME,
     api_key=EMBED_API_KEY,
     base_url=EMBED_BASE_URL,
-    # 硅基流动等第三方接口只接受原始文本,不接受 token id 数组
     check_embedding_ctx_length=False,
 )
 
@@ -76,11 +72,11 @@ def build_knowledge_base() -> None:
         client.create_database(db_name=DB_NAME)
     client.use_database(DB_NAME)
 
-    # 如果已经存在 collection,删除再建(避免重复入库)
+    # 如果已经存在 collection,删除再建
     if client.has_collection(collection_name=COLLECTION_NAME):
         client.drop_collection(collection_name=COLLECTION_NAME)
 
-    # 快速建集合:text/source/chunk_id 会被存进动态字段
+
     client.create_collection(
         collection_name=COLLECTION_NAME,
         dimension=EMBED_DIM,
