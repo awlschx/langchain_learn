@@ -3,13 +3,11 @@ name = "lc-cource"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
-    "agentstate>=1.0.2",
-    "create-agent>=0.0.3",
     "langchain>=1.4.0",
+    "langchain-community>=0.4.2",
     "langchain-deepseek>=1.1.0",
+    "langchain-text-splitters>=1.1.2",
     "notebook>=7.6.2",
+    "pymilvus>=3.0.2",
     "recursivecharactertextsplitter>=0.1.0",
-    "splitter>=0.1.1",
-    "store>=2020.2.10",
-    "textloader>=0.0.9",
 ]

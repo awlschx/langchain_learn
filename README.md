@@ -48,8 +48,11 @@ uv sync
 2. **配置环境变量**——在项目根目录创建 `.env`:
 
 ```
-DEEPSEEK_API_KEY=你的密钥
+DEEPSEEK_API_KEY=你的DeepSeek密钥
+SILICONFLOW_API_KEY=你的硅基流动密钥
 ```
+
+两个 key 不能混用:对话走 DeepSeek 官方,嵌入走硅基流动,各用各的密钥。
 
 3. **准备知识库文件**——`Assistant.py` 中读取的路径是 `../knowledge.txt`,
    即项目上一级目录:`D:\python_code\knowledge.txt`。文件内容为 UTF-8 编码的纯文本。
